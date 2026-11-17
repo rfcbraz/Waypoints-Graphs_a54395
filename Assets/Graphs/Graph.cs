@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class Graph
@@ -8,7 +9,6 @@ public class Graph
     
 List<Edge> edges = new List<Edge>();
 List<Node> nodes = new List<Node>();
-
 List<Node> pathList = new List<Node>();
 
 public Graph(){}
@@ -73,7 +73,7 @@ Node FindNode(GameObject id)
 
             if(thisNode.getId() == endId)
             {
-                //ReconstructPath(start,end);
+                ReconstructPath(start,end);
                 return true;
 
             }
@@ -112,6 +112,22 @@ Node FindNode(GameObject id)
             }
         }
         return false;
+    }
+
+    public void ReconstructPath (Node startId, Node endId)
+    {
+        pathList.Clear();
+        pathList.Add(endId);
+
+        var p = endId.cameFrom;
+        while (p != startId && p != null)
+        {
+            pathList.Insert(0,p);
+            p = p.cameFrom;
+
+        }
+        pathList.Insert(0, startId);
+
     }
 
 
