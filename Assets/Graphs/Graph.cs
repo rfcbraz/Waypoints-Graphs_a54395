@@ -9,7 +9,7 @@ public class Graph
     
 List<Edge> edges = new List<Edge>();
 List<Node> nodes = new List<Node>();
-List<Node> pathList = new List<Node>();
+public List<Node> pathList = new List<Node>();
 
 public Graph(){}
 
@@ -47,7 +47,7 @@ Node FindNode(GameObject id)
 
     public bool AStar(GameObject startId, GameObject endId)
     {
-        
+        pathList.Clear();
         Node start = FindNode(startId);
         Node end = FindNode(endId);
 
@@ -137,31 +137,21 @@ Node FindNode(GameObject id)
     float distance(Node a, Node b)
     {
         
-        return(Vector3.SqrMagnitude(a.getId().transform.position - b.getId().transform.position));
+        return(Vector3.Distance(a.getId().transform.position, b.getId().transform.position));
 
     }
 
     int lowestF(List<Node> l)
     {
-        
-        float lowestf=0;
-        int count = 0;
-        int iteratorCount = 0;
-
-        lowestf = l[0].f;
-
-        for(int i = 1; i < l.Count; i++)
+        int lowestIndex = 0;
+        for (int i = 1; i < l.Count; i++)
         {
-            
-            if (l[i].f < lowestf)
+            if (l[i].f < l[lowestIndex].f)
             {
-                lowestf = l[i].f;
-                iteratorCount = count;
+                lowestIndex = i;
             }
-                count++;
         }
-        return iteratorCount;
-        
+        return lowestIndex;
 
     }
 
