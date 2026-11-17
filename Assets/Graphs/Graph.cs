@@ -47,7 +47,13 @@ Node FindNode(GameObject id)
 
     public bool AStar(GameObject startId, GameObject endId)
     {
-        pathList.Clear();
+        if (startId == endId)
+        {
+            pathList.Clear();
+            return false;
+        }   
+
+        
         Node start = FindNode(startId);
         Node end = FindNode(endId);
 
@@ -137,21 +143,31 @@ Node FindNode(GameObject id)
     float distance(Node a, Node b)
     {
         
-        return(Vector3.Distance(a.getId().transform.position, b.getId().transform.position));
+        return(Vector3.SqrMagnitude(a.getId().transform.position - b.getId().transform.position));
 
     }
 
     int lowestF(List<Node> l)
     {
-        int lowestIndex = 0;
-        for (int i = 1; i < l.Count; i++)
+        
+        float lowestf=0;
+        int count = 0;
+        int iteratorCount = 0;
+
+        lowestf = l[0].f;
+
+        for(int i = 1; i < l.Count; i++)
         {
-            if (l[i].f < l[lowestIndex].f)
+            
+            if (l[i].f < lowestf)
             {
-                lowestIndex = i;
+                lowestf = l[i].f;
+                iteratorCount = count;
             }
+                count++;
         }
-        return lowestIndex;
+        return iteratorCount;
+        
 
     }
 
